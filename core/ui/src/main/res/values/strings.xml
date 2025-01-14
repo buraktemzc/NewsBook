@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="error_connection">You should connect to the internet. Otherwise, last information about news will be read from DB.</string>
+    <string name="error_timeout">It may be a problem in our servers. Please try again later.</string>
+    <string name="error_unknown">Unknown problem. We are trying to find it as soon as possible.</string>
+</resources>
