@@ -13,5 +13,7 @@ kotlin {
 }
 dependencies {
     implementation(project(":core:model"))
+    implementation(project(":base:domain"))
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.javax.inject)
 }

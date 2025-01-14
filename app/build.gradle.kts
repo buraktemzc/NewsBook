@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
     implementation(project(":network:manager"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
