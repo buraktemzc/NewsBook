@@ -8,5 +8,6 @@ data class NewsDomainModel(
     val userId: Long,
     val title: String,
     val description: String,
+    val imageURL: String,
     val updated: Boolean
 ) : DomainModel

@@ -6,5 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
     suspend fun insertAllPosts(list: List<NewsEntity>)
 
+    suspend fun getNumberOfNews() : Long
+
     fun readAllNews(): Flow<List<NewsEntity>>
 }

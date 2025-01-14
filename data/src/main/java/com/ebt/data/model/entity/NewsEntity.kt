@@ -12,5 +12,6 @@ data class NewsEntity(
     val id: Long?,
     val title: String?,
     val body: String?,
+    val imageURL: String,
     val updated: Boolean = false
 ) : EntityModel

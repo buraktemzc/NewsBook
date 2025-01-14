@@ -6,11 +6,12 @@ import com.ebt.data.model.response.NewsResponse
 import javax.inject.Inject
 
 class NewsEntityMapper @Inject constructor() : EntityMapper<NewsResponse, NewsEntity> {
-    override fun mapToEntityModel(responseModel: NewsResponse): NewsEntity =
+    override fun mapToEntityModel(responseModel: NewsResponse, index: Int): NewsEntity =
         NewsEntity(
             userId = responseModel.userId,
             id = responseModel.id,
             title = responseModel.title,
-            body = responseModel.body
+            body = responseModel.body,
+            imageURL = "https://picsum.photos/300/300?random=$index&grayscale"
         )
 }

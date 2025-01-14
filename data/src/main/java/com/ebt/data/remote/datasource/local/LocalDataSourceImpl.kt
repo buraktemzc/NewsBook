@@ -8,6 +8,6 @@ import javax.inject.Inject
 class LocalDataSourceImpl @Inject constructor(private val dao: NewsDao) : LocalDataSource {
 
     override suspend fun insertAllPosts(list: List<NewsEntity>) = dao.insertAll(list)
-
+    override suspend fun getNumberOfNews(): Long = dao.getCount()
     override fun readAllNews(): Flow<List<NewsEntity>> = dao.getAll()
 }

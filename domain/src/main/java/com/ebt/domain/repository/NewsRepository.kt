@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     suspend fun fetchPosts(): Resource<Unit>
+    suspend fun getNumberOfPosts() : Long
     fun getAllPostsFromDB(): Flow<List<NewsDomainModel>>
 }

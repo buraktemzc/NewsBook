@@ -8,6 +8,6 @@ import javax.inject.Inject
 class NewsEntityListMapper @Inject constructor(private val entityMapper: NewsEntityMapper) :
     EntitiesMapper<NewsResponse, NewsEntity> {
     override fun mapToEntityList(responseList: List<NewsResponse>): List<NewsEntity> {
-        return responseList.map { entityMapper.mapToEntityModel(it) }
+        return responseList.mapIndexed { index, item -> entityMapper.mapToEntityModel(item, index) }
     }
 }

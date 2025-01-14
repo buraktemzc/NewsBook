@@ -14,4 +14,7 @@ interface NewsDao {
 
     @Query("SELECT * FROM news")
     fun getAll(): Flow<List<NewsEntity>>
+
+    @Query("SELECT count(*) from news")
+    fun getCount(): Long
 }

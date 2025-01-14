@@ -31,6 +31,8 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getNumberOfPosts(): Long = localDataSource.getNumberOfNews()
+
     override fun getAllPostsFromDB(): Flow<List<NewsDomainModel>> {
         return localDataSource.readAllNews().map { newsList ->
             newsListDomainMapper.mapToDomainModel(newsList)

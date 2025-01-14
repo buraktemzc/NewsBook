@@ -13,6 +13,7 @@ class NewsDomainMapper @Inject constructor() : EntityDomainMapper<NewsEntity, Ne
             userId = entity.userId ?: 0L,
             title = entity.title ?: "",
             description = entity.body ?: "",
+            imageURL = entity.imageURL,
             updated = entity.updated
         )
 }
