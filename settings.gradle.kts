@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "NewsBook"
 include(":app")
+include(":core:model")
+include(":core:theme")
+include(":core:ui")
