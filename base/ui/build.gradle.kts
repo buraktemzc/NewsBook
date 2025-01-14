@@ -12,7 +12,5 @@ kotlin {
     }
 }
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":network:model"))
     implementation(project(":base:domain"))
 }

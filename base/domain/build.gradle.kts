@@ -12,7 +12,6 @@ kotlin {
     }
 }
 dependencies {
+    implementation(libs.kotlinx.coroutines.core)
     implementation(project(":core:model"))
-    implementation(project(":network:model"))
-    implementation(project(":base:domain"))
 }
