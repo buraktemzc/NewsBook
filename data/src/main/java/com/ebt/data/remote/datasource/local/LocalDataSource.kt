@@ -8,5 +8,9 @@ interface LocalDataSource {
 
     suspend fun getNumberOfNews() : Long
 
+    suspend fun getNewsByRowId(rowId: Long) : NewsEntity?
+
+    suspend fun updateNews(rowId: Long, title: String, description: String)
+
     fun readAllNews(): Flow<List<NewsEntity>>
 }

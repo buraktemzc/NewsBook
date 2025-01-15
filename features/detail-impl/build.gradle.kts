@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.ebt.newsbook"
+    namespace = "com.ebt.features.detail_impl"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.ebt.newsbook"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -41,26 +38,24 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:theme"))
-    implementation(project(":core:ui"))
-    implementation(project(":network:manager"))
-    implementation(project(":data"))
-    implementation(project(":features:home-api"))
-    implementation(project(":features:home-impl"))
     implementation(project(":features:detail-api"))
-    implementation(project(":features:detail-impl"))
+    implementation(project(":core:model"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:theme"))
+    implementation(project(":base:domain"))
+    implementation(project(":base:ui"))
+    implementation(project(":domain"))
 
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.material)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.io.coil.kt)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
 }

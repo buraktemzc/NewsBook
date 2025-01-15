@@ -15,6 +15,12 @@ interface NewsDao {
     @Query("SELECT * FROM news")
     fun getAll(): Flow<List<NewsEntity>>
 
+    @Query("SELECT * FROM news WHERE rowId= :rowId")
+    fun getNewsByRowId(rowId: Long): NewsEntity?
+
     @Query("SELECT count(*) from news")
-    fun getCount(): Long
+    suspend fun getCount(): Long
+
+    @Query("UPDATE news SET title = :title, body = :description, updated = 1 WHERE rowId = :rowId")
+    suspend fun updateNews(rowId: Long, title: String, description: String)
 }

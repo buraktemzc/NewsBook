@@ -9,5 +9,11 @@ class LocalDataSourceImpl @Inject constructor(private val dao: NewsDao) : LocalD
 
     override suspend fun insertAllPosts(list: List<NewsEntity>) = dao.insertAll(list)
     override suspend fun getNumberOfNews(): Long = dao.getCount()
+    override suspend fun getNewsByRowId(rowId: Long): NewsEntity? =
+        dao.getNewsByRowId(rowId = rowId)
+
+    override suspend fun updateNews(rowId: Long, title: String, description: String) =
+        dao.updateNews(rowId = rowId, title = title, description = description)
+
     override fun readAllNews(): Flow<List<NewsEntity>> = dao.getAll()
 }

@@ -1,21 +1,26 @@
 package com.ebt.newsbook
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ebt.core.ui.extensions.observeInLifecycle
-import com.ebt.core.ui.extensions.show
+import com.ebt.features.detail_api.DetailNavigation
 import com.ebt.features.home_api.HomeNavigation
 import com.ebt.newsbook.databinding.ActivityMainBinding
 import com.ebt.newsbook.model.Destination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ebt.core.ui.R as coreR
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var homeNavigation: HomeNavigation
+
+    @Inject
+    lateinit var detailNavigation: DetailNavigation
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
@@ -41,6 +46,16 @@ class MainActivity : AppCompatActivity() {
         viewModel.goToLastScreen()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                viewModel.goToHome()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     fun onNewsSelected(rowId: Long) {
         viewModel.onNewsSelected(rowId)
     }
@@ -64,11 +79,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showHome() {
-        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        supportActionBar?.title = "Home"
-        binding.toolbar.show()
+        supportActionBar?.title = getString(coreR.string.home)
 
         clearBackStack()
         homeNavigation.showHome(binding.container.id)
@@ -81,12 +94,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDetail(rowId: Long) {
-        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Title"
-        binding.toolbar.show()
+        supportActionBar?.title = getString(coreR.string.detail)
 
-        // TODO: show detail
+        detailNavigation.showDetail(binding.container.id, rowId)
     }
 }
