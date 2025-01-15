@@ -2,6 +2,7 @@ package com.ebt.features.home_impl.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -29,6 +30,7 @@ internal class HomeAdapter @AssistedInject constructor(
         fun bind(item: NewsUIModel) {
             with(binding) {
                 imageView.load(item.userImageURL) { transformations(CircleCropTransformation()) }
+                updatedTextView.isVisible = item.updated
                 titleTextView.text = item.title
                 descriptionTextView.text = item.description
                 root.setOnClickListener {

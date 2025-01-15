@@ -93,6 +93,20 @@ class HomeViewModel @Inject constructor(
         when (removeNewsUseCase(rowId)) {
             is Resource.Success -> {
                 _homeFlow.emit(HomeEvent.ItemRemoved)
+                checkListIsEmpty()
+            }
+
+            is Resource.Failure -> Unit
+        }
+    }
+
+    private fun checkListIsEmpty() = viewModelScope.launch {
+        when (val result = getNumberOfNewsUseCase(Unit)) {
+            is Resource.Success -> {
+                val numberOfNews = result.value
+                if (numberOfNews == 0L) {
+                    _homeFlow.emit(HomeEvent.ShowEmptyView)
+                }
             }
 
             is Resource.Failure -> Unit

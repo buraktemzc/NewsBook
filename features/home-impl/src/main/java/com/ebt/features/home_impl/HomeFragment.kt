@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebt.core.model.NewsError
+import com.ebt.core.ui.extensions.hide
 import com.ebt.core.ui.extensions.observeInLifecycle
+import com.ebt.core.ui.extensions.show
 import com.ebt.core.ui.view.ErrorDialog
 import com.ebt.core.ui.view.LoadingDialog
 import com.ebt.features.home_impl.adapter.HomeAdapter
@@ -93,6 +95,9 @@ class HomeFragment : Fragment() {
                 }).attachToRecyclerView(this)
             }
 
+            getUpdatedDataButton.setOnClickListener {
+                viewModel.checkNewsAreReady()
+            }
         }
         errorDialog.setOnDismissListener {
             viewModel.needToRunInitialOperations()
@@ -105,6 +110,10 @@ class HomeFragment : Fragment() {
                 is HomeEvent.Loading -> loadingDialog.show()
                 is HomeEvent.NewsRetrieved -> {
                     loadingDialog.dismiss()
+                    with(binding) {
+                        recyclerView.show()
+                        getUpdatedDataButton.hide()
+                    }
                     homeAdapter.submitList(it.list)
                 }
 
@@ -119,6 +128,13 @@ class HomeFragment : Fragment() {
                         getString(coreR.string.removed_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+                is HomeEvent.ShowEmptyView -> {
+                    with(binding) {
+                        recyclerView.hide()
+                        getUpdatedDataButton.show()
+                    }
                 }
             }
         }
