@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ebt.core.model.NewsError
 import com.ebt.core.ui.extensions.observeInLifecycle
 import com.ebt.core.ui.view.ErrorDialog
@@ -18,6 +21,8 @@ import com.ebt.features.home_impl.databinding.FragmentHomeBinding
 import com.ebt.features.home_impl.listener.HomeListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ebt.core.ui.R as coreR
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -72,7 +77,22 @@ class HomeFragment : Fragment() {
                     LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(divider)
                 adapter = homeAdapter
+
+                ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        viewModel.removeNews(homeAdapter.currentList[viewHolder.absoluteAdapterPosition].rowId)
+                    }
+                }).attachToRecyclerView(this)
             }
+
         }
         errorDialog.setOnDismissListener {
             viewModel.needToRunInitialOperations()
@@ -92,6 +112,14 @@ class HomeFragment : Fragment() {
                     loadingDialog.dismiss()
                     showError(it.error)
                 }
+
+                is HomeEvent.ItemRemoved -> {
+                    Toast.makeText(
+                        context,
+                        getString(coreR.string.removed_successfully),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -99,9 +127,9 @@ class HomeFragment : Fragment() {
     private fun showError(error: NewsError) {
         when (error) {
             is NewsError.ApiError -> showMessage(error.message)
-            is NewsError.UnKnownError -> showMessage(getString(com.ebt.core.ui.R.string.error_unknown))
-            is NewsError.ConnectionError -> showMessage(getString(com.ebt.core.ui.R.string.error_connection))
-            is NewsError.TimeOutException -> showMessage(getString(com.ebt.core.ui.R.string.error_timeout))
+            is NewsError.UnKnownError -> showMessage(getString(coreR.string.error_unknown))
+            is NewsError.ConnectionError -> showMessage(getString(coreR.string.error_connection))
+            is NewsError.TimeOutException -> showMessage(getString(coreR.string.error_timeout))
         }
     }
 

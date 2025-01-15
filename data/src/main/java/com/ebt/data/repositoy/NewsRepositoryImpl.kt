@@ -58,6 +58,8 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun updatePost(rowId: Long, title: String, description: String) =
         localDataSource.updateNews(rowId = rowId, title = title, description = description)
 
+    override suspend fun removeNews(rowId: Long) = localDataSource.removeNews(rowId)
+
     override fun getAllPostsFromDB(): Flow<List<NewsDomainModel>> {
         return localDataSource.readAllNews().map { newsList ->
             newsListDomainMapper.mapToDomainModel(newsList)

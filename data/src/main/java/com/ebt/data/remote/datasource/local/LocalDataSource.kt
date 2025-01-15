@@ -12,5 +12,7 @@ interface LocalDataSource {
 
     suspend fun updateNews(rowId: Long, title: String, description: String)
 
+    suspend fun removeNews(rowId: Long)
+
     fun readAllNews(): Flow<List<NewsEntity>>
 }

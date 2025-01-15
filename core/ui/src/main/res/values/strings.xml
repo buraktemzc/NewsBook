@@ -8,6 +8,7 @@
     <string name="home">Home</string>
     <string name="detail">Detail</string>
     <string name="error_update">Please check your fields! Title and Description must not be empty.</string>
+    <string name="removed_successfully">Post is removed!</string>
     <string name="error_connection">You should connect to the internet. Otherwise, last information about news will be read from DB.</string>
     <string name="error_timeout">It may be a problem in our servers. Please try again later.</string>
     <string name="error_unknown">Unknown problem. We are trying to find it as soon as possible.</string>

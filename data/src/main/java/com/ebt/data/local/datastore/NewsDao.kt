@@ -23,4 +23,7 @@ interface NewsDao {
 
     @Query("UPDATE news SET title = :title, body = :description, updated = 1 WHERE rowId = :rowId")
     suspend fun updateNews(rowId: Long, title: String, description: String)
+
+    @Query("DELETE FROM news WHERE rowId = :rowId")
+    suspend fun removeNews(rowId: Long)
 }

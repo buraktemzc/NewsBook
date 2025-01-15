@@ -7,6 +7,7 @@ import com.ebt.core.model.Resource
 import com.ebt.domain.usecase.FetchNewsUseCase
 import com.ebt.domain.usecase.GetNewsFromDBUseCase
 import com.ebt.domain.usecase.GetNumberOfNewsUseCase
+import com.ebt.domain.usecase.RemoveNewsUseCase
 import com.ebt.features.home_impl.mapper.NewsUIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ class HomeViewModel @Inject constructor(
     private val fetchNewsUseCase: FetchNewsUseCase,
     private val getNewsFromDBUseCase: GetNewsFromDBUseCase,
     private val getNumberOfNewsUseCase: GetNumberOfNewsUseCase,
+    private val removeNewsUseCase: RemoveNewsUseCase,
     private val newsUIMapper: NewsUIMapper
 ) : ViewModel() {
 
@@ -33,7 +35,7 @@ class HomeViewModel @Inject constructor(
                 is HomeEvent.Failure -> {
                     when (event.error) {
                         is NewsError.ConnectionError, is NewsError.TimeOutException -> {
-                            fetNews()
+                            fetchNews()
                         }
 
                         else -> Unit
@@ -50,7 +52,7 @@ class HomeViewModel @Inject constructor(
             is Resource.Success -> {
                 val numberOfNews = result.value
                 if (numberOfNews == 0L) {
-                    fetNews()
+                    fetchNews()
                     return@launch
                 }
                 getAllNewsFromDB()
@@ -60,7 +62,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fetNews() = viewModelScope.launch {
+    private fun fetchNews() = viewModelScope.launch {
         when (val result = fetchNewsUseCase(Unit)) {
             is Resource.Success -> getAllNewsFromDB()
             is Resource.Failure -> _homeFlow.emit(HomeEvent.Failure(result.error))
@@ -85,5 +87,15 @@ class HomeViewModel @Inject constructor(
                     newsUIMapper.mapToUIModel(item)
                 }))
             }
+    }
+
+    fun removeNews(rowId: Long) = viewModelScope.launch {
+        when (removeNewsUseCase(rowId)) {
+            is Resource.Success -> {
+                _homeFlow.emit(HomeEvent.ItemRemoved)
+            }
+
+            is Resource.Failure -> Unit
+        }
     }
 }

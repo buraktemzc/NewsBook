@@ -15,5 +15,7 @@ class LocalDataSourceImpl @Inject constructor(private val dao: NewsDao) : LocalD
     override suspend fun updateNews(rowId: Long, title: String, description: String) =
         dao.updateNews(rowId = rowId, title = title, description = description)
 
+    override suspend fun removeNews(rowId: Long) = dao.removeNews(rowId)
+
     override fun readAllNews(): Flow<List<NewsEntity>> = dao.getAll()
 }

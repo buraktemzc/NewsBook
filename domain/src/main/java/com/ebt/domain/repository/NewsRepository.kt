@@ -9,5 +9,6 @@ interface NewsRepository {
     suspend fun getNumberOfPosts(): Long
     suspend fun getPostByRowId(rowId: Long): Resource<NewsDomainModel>
     suspend fun updatePost(rowId: Long, title: String, description: String)
+    suspend fun removeNews(rowId: Long)
     fun getAllPostsFromDB(): Flow<List<NewsDomainModel>>
 }
